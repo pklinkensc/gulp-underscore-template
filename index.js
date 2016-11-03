@@ -32,10 +32,12 @@ module.exports = function (options) {
         var filePath = file.path;
 
         try {
-            var header = 'var ' + options.varName + ' = ' + options.varName + ' || {};';
+            // var header = 'var ' + options.varName + ' = ' + options.varName + ' || {'
+            var header = '$.extend(' + options.varName + ' { \n';
+            var footer = '\n });';
             var compiled = compiler(file);
 
-            file.contents = new Buffer(header + compiled);
+            file.contents = new Buffer(header + compiled + footer);
             file.path = gutil.replaceExtension(file.path, '.js');
         } catch (err) {
             this.emit('error', new PluginError(PLUGIN_NAME, err, {fileName: filePath}));
