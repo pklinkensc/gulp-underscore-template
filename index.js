@@ -4,7 +4,7 @@ var through = require('through2');
 var _ = require('underscore');
 var PluginError = gutil.PluginError;
 
-var PLUGIN_NAME = 'gulp-underscore-compile';
+var PLUGIN_NAME = 'gulp-underscore-compile-custom';
 
 module.exports = function (options) {
     options = options || {};
@@ -14,7 +14,7 @@ module.exports = function (options) {
         var html = file.contents.toString();
         var template = _.template(html).source;
 
-        return "exports['" + name.replace(/\.html?$/, '').replace(/\\/g, '/') + "']=" + template + ';';
+        return options.varName + "['" + name.replace(/\.html?$/, '').replace(/\\/g, '/') + "']=" + template + ';';
     }
 
     return through.obj(function (file, enc, callback) {
@@ -32,9 +32,10 @@ module.exports = function (options) {
         var filePath = file.path;
 
         try {
+            var header = 'var ' + options.varName + ' = ' + options.varName + ' || {};';
             var compiled = compiler(file);
 
-            file.contents = new Buffer(compiled);
+            file.contents = header + new Buffer(compiled);
             file.path = gutil.replaceExtension(file.path, '.js');
         } catch (err) {
             this.emit('error', new PluginError(PLUGIN_NAME, err, {fileName: filePath}));
