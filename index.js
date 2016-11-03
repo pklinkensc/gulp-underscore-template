@@ -35,7 +35,7 @@ module.exports = function (options) {
             var header = 'var ' + options.varName + ' = ' + options.varName + ' || {};';
             var compiled = compiler(file);
 
-            file.contents = header + new Buffer(compiled);
+            file.contents = new Buffer(header + compiled);
             file.path = gutil.replaceExtension(file.path, '.js');
         } catch (err) {
             this.emit('error', new PluginError(PLUGIN_NAME, err, {fileName: filePath}));
