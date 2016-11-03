@@ -1,5 +1,5 @@
 {
-  "name": "gulp-underscore-template",
+  "name": "gulp-underscore-template-custom",
   "version": "1.0.0",
   "description": "gulp underscore template pre-compiler",
   "main": "index.js",
@@ -8,7 +8,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git@github.com:rhgb/gulp-underscore-template.git"
+    "url": "git@github.com:pklinkensc/gulp-underscore-template.git"
   },
   "keywords": [
     "gulp",
