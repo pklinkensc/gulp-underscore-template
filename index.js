@@ -14,7 +14,7 @@ module.exports = function (options) {
         var html = file.contents.toString();
         var template = _.template(html).source;
 
-        return options.varName + "['" + name.replace(/\.html?$/, '').replace(/\\/g, '/') + "']=" + template + ';';
+        return name.replace(/\.html?$/, '').replace(/\\/g, '/') + ": " + template;
     }
 
     return through.obj(function (file, enc, callback) {
@@ -32,8 +32,8 @@ module.exports = function (options) {
         var filePath = file.path;
 
         try {
-            // var header = 'var ' + options.varName + ' = ' + options.varName + ' || {'
-            var header = '$.extend(' + options.varName + ' { \n';
+            var header = 'var ' + options.varName + ' = ' + options.varName + ' || {};\n' +
+                          '$.extend(' + options.varName + ', { \n';
             var footer = '\n });';
             var compiled = compiler(file);
 
